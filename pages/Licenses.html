@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرخص</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            background-color: #8E24AA;
+            color: #FFFFFF;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .back-icon {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .back-icon i {
+            font-size: 25px;
+        }
+        .license-info, .annual-info {
+            text-align: right;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .license-info p, .annual-info p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input[type="date"] {
+            border: none;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+
+        .valid {
+            color: #4CAF50; /* Green */
+            font-weight: bold;
+        }
+
+        .expired {
+            color: #F44336; /* Red */
+            font-weight: bold;
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 600px) {
+            .license-info p, .annual-info p {
+                font-size: 14px;
+                padding: 6px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="back-icon" onclick="goToStartPage()">
+            <i class="fas fa-arrow-circle-left"></i>
+        </div>
+        <h1>بيانات الرخص</h1>
+
+        <!-- License Box -->
+        <div class="license-info">
+            <h3>رخصة القيادة</h3>
+            <p>
+                <strong>تاريخ نفاد رخصة القيادة:</strong>
+                <input type="date" id="licenseExpiry">
+            </p>
+            <p id="licenseStatus"></p>
+        </div>
+
+        <!-- Annual Box -->
+        <div class="annual-info">
+            <h3>سنوية السيارة</h3>
+            <p>
+                <strong>تاريخ نفاد السنوية:</strong>
+                <input type="date" id="annualExpiry">
+            </p>
+            <p id="annualStatus"></p>
+        </div>
+    </div>
+
+    <script>
+        function goToStartPage() {
+            window.location.href = "../start.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const storedData = JSON.parse(localStorage.getItem("userData"));
+            const currentDate = new Date(); // Get current date
+            const currentDateString = currentDate.toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+
+            if (storedData) {
+                const licenseExpiry = new Date(storedData.licenseExpiry);
+                const annualExpiry = new Date(storedData.annualExpiry);
+
+                // Populate input fields
+                document.getElementById("licenseExpiry").value = storedData.licenseExpiry;
+                document.getElementById("annualExpiry").value = storedData.annualExpiry;
+
+                // Function to calculate remaining time (years, months, days)
+                function calculateRemainingTime(expiryDate) {
+                    const diffTime = expiryDate - currentDate;
+                    const remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+
+                    const years = Math.floor(remainingDays / 365);
+                    const months = Math.floor((remainingDays % 365) / 30);
+                    const days = remainingDays % 30;
+
+                    return { years, months, days };
+                }
+
+                // Display license expiry status
+                const licenseStatus = document.getElementById("licenseStatus");
+                const licenseRemainingTime = calculateRemainingTime(licenseExpiry);
+                if (licenseRemainingTime.years < 0 || (licenseRemainingTime.years === 0 && licenseRemainingTime.months < 0) || (licenseRemainingTime.years === 0 && licenseRemainingTime.months === 0 && licenseRemainingTime.days < 0)) {
+                    licenseStatus.innerText = `رخصة القيادة انتهت منذ ${Math.abs(licenseRemainingTime.years)} سنة و ${Math.abs(licenseRemainingTime.months)} شهر و ${Math.abs(licenseRemainingTime.days)} يومًا`;
+                    licenseStatus.classList.add("expired");
+                    licenseStatus.classList.remove("valid");
+                } else {
+                    licenseStatus.innerText = `ستنتهي رخصة القيادة بعد ${licenseRemainingTime.years} سنة و ${licenseRemainingTime.months} شهر و ${licenseRemainingTime.days} يومًا`;
+                    licenseStatus.classList.add("valid");
+                    licenseStatus.classList.remove("expired");
+                }
+
+                // Display annual expiry status
+                const annualStatus = document.getElementById("annualStatus");
+                const annualRemainingTime = calculateRemainingTime(annualExpiry);
+                if (annualRemainingTime.years < 0 || (annualRemainingTime.years === 0 && annualRemainingTime.months < 0) || (annualRemainingTime.years === 0 && annualRemainingTime.months === 0 && annualRemainingTime.days < 0)) {
+                    annualStatus.innerText = `السنوية انتهت منذ ${Math.abs(annualRemainingTime.years)} سنة و ${Math.abs(annualRemainingTime.months)} شهر و ${Math.abs(annualRemainingTime.days)} يومًا`;
+                    annualStatus.classList.add("expired");
+                    annualStatus.classList.remove("valid");
+                } else {
+                    annualStatus.innerText = `ستنتهي السنوية بعد ${annualRemainingTime.years} سنة و ${annualRemainingTime.months} شهر و ${annualRemainingTime.days} يومًا`;
+                    annualStatus.classList.add("valid");
+                    annualStatus.classList.remove("expired");
+                }
+            } else {
+                alert("لا توجد بيانات للمستخدم.");
+            }
+
+            // Add event listeners for updating localStorage when the date is changed
+            document.getElementById("licenseExpiry").addEventListener("change", (e) => {
+                const storedData = JSON.parse(localStorage.getItem("userData")) || {};
+                storedData.licenseExpiry = e.target.value;
+                localStorage.setItem("userData", JSON.stringify(storedData));
+                // Recalculate and update the license status immediately
+                const licenseExpiry = new Date(e.target.value);
+                const licenseRemainingTime = calculateRemainingTime(licenseExpiry);
+                const licenseStatus = document.getElementById("licenseStatus");
+                if (licenseRemainingTime.years < 0 || (licenseRemainingTime.years === 0 && licenseRemainingTime.months < 0) || (licenseRemainingTime.years === 0 && licenseRemainingTime.months === 0 && licenseRemainingTime.days < 0)) {
+                    licenseStatus.innerText = `رخصة القيادة انتهت منذ ${Math.abs(licenseRemainingTime.years)} سنة و ${Math.abs(licenseRemainingTime.months)} شهر و ${Math.abs(licenseRemainingTime.days)} يومًا`;
+                    licenseStatus.classList.add("expired");
+                    licenseStatus.classList.remove("valid");
+                } else {
+                    licenseStatus.innerText = `ستنتهي رخصة القيادة بعد ${licenseRemainingTime.years} سنة و ${licenseRemainingTime.months} شهر و ${licenseRemainingTime.days} يومًا`;
+                    licenseStatus.classList.add("valid");
+                    licenseStatus.classList.remove("expired");
+                }
+            });
+
+            document.getElementById("annualExpiry").addEventListener("change", (e) => {
+                const storedData = JSON.parse(localStorage.getItem("userData")) || {};
+                storedData.annualExpiry = e.target.value;
+                localStorage.setItem("userData", JSON.stringify(storedData));
+                // Recalculate and update the annual status immediately
+                const annualExpiry = new Date(e.target.value);
+                const annualRemainingTime = calculateRemainingTime(annualExpiry);
+                const annualStatus = document.getElementById("annualStatus");
+                if (annualRemainingTime.years < 0 || (annualRemainingTime.years === 0 && annualRemainingTime.months < 0) || (annualRemainingTime.years === 0 && annualRemainingTime.months === 0 && annualRemainingTime.days < 0)) {
+                    annualStatus.innerText = `السنوية انتهت منذ ${Math.abs(annualRemainingTime.years)} سنة و ${Math.abs(annualRemainingTime.months)} شهر و ${Math.abs(annualRemainingTime.days)} يومًا`;
+                    annualStatus.classList.add("expired");
+                    annualStatus.classList.remove("valid");
+                } else {
+                    annualStatus.innerText = `ستنتهي السنوية بعد ${annualRemainingTime.years} سنة و ${annualRemainingTime.months} شهر و ${annualRemainingTime.days} يومًا`;
+                    annualStatus.classList.add("valid");
+                    annualStatus.classList.remove("expired");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

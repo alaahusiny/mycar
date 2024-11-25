@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قسم الزيت</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            background-color: #0288D1;
+            color: #FFFFFF;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        input, button {
+            width: 90%;
+            margin: 10px auto;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input {
+            background-color: #F9F9F9;
+            color: #000;
+            border: 1px solid #E0E0E0;
+        }
+        input::placeholder {
+            color: #757575;
+        }
+        button {
+            background-color: #0288D1;
+            color: #FFFFFF;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #03A9F4;
+        }
+        .record-container {
+            margin-top: 20px;
+            text-align: center;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .record-item {
+            background-color: #E1F5FE;
+            color: #000;
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: right;
+            width: 90%;
+        }
+        .delete-icon {
+            color: #E53935;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .delete-icon:hover {
+            color: #D32F2F;
+        }
+        .back-icon {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .back-icon i {
+            font-size: 25px;
+        }
+        .alert-box {
+            background-color: #FFEB3B;
+            color: #000;
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+        .alert-box.warning {
+            background-color: #FF5722;
+            color: #FFFFFF;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="back-icon" onclick="goToStartPage()">
+            <i class="fas fa-arrow-circle-left"></i>
+        </div>
+
+        <h1>قسم الزيت</h1>
+
+        <div id="alertBox" class="alert-box"></div> <!-- تنبيه -->
+
+        <input id="oilType" type="text" placeholder="نوع الزيت (اختياري)">
+        <input id="oilQuantity" type="number" placeholder="كمية الزيت (باللتر)" required>
+        <input id="oilCost" type="number" placeholder="كلفة الزيت بالدينار" required>
+        <input id="oilDate" type="date" placeholder="أدخل تاريخ التغيير والصلاحية" required>
+        <input id="oilValidity" type="number" placeholder="مدة صلاحية الزيت بالأشهر">
+        <input id="oilNotes" type="text" placeholder="ملاحظات (اختياري)">
+        <button class="save-btn" onclick="saveRecord()">حفظ</button>
+
+        <div id="recordContainer" class="record-container">
+            <div id="recordList"></div>
+        </div>
+    </div>
+
+    <script>
+        let plateNumber = localStorage.getItem("plateNumber") || "default";
+
+        window.onload = function() {
+            loadRecords();
+        };
+
+        function goToStartPage() {
+            window.location.href = "../start.html"; // التأكد من المسار
+        }
+
+        function saveRecord() {
+            const oilType = document.getElementById("oilType").value;
+            const oilQuantity = document.getElementById("oilQuantity").value;
+            const oilCost = document.getElementById("oilCost").value;
+            const oilDate = document.getElementById("oilDate").value;
+            const oilValidity = document.getElementById("oilValidity").value;
+            const oilNotes = document.getElementById("oilNotes").value;
+
+            if (!oilQuantity || !oilCost || !oilDate) {
+                alert("يرجى ملء جميع الحقول المطلوبة!");
+                return;
+            }
+
+            const record = {
+                oilType,
+                oilQuantity,
+                oilCost,
+                oilDate,
+                oilValidity: oilValidity ? `${oilValidity} أشهر` : "غير محدد",
+                oilNotes
+            };
+
+            let records = JSON.parse(localStorage.getItem(`oilRecords_${plateNumber}`)) || [];
+            records.push(record);
+            localStorage.setItem(`oilRecords_${plateNumber}`, JSON.stringify(records));
+
+            displayRecords(records);
+            showAlert(oilDate, oilValidity);
+
+            document.getElementById("oilType").value = "";
+            document.getElementById("oilQuantity").value = "";
+            document.getElementById("oilCost").value = "";
+            document.getElementById("oilDate").value = "";
+            document.getElementById("oilValidity").value = "";
+            document.getElementById("oilNotes").value = "";
+        }
+
+        function displayRecords(records) {
+            const recordList = document.getElementById("recordList");
+            recordList.innerHTML = ""; // Clear previous records
+            records.forEach((record, index) => {
+                const recordItem = document.createElement("div");
+                recordItem.className = "record-item";
+
+                const recordText = document.createElement("span");
+                recordText.textContent = 
+                    `نوع الزيت: ${record.oilType || "غير محدد"} | الكمية: ${record.oilQuantity} لتر | الكلفة: ${record.oilCost} دينار | التاريخ: ${record.oilDate} | الصلاحية: ${record.oilValidity} | ملاحظات: ${record.oilNotes || "لا توجد"}`;
+                
+                const deleteIcon = document.createElement("i");
+                deleteIcon.className = "fas fa-trash delete-icon";
+                deleteIcon.onclick = () => deleteRecord(index);
+
+                recordItem.appendChild(recordText);
+                recordItem.appendChild(deleteIcon);
+
+                recordList.appendChild(recordItem);
+            });
+        }
+
+        function deleteRecord(index) {
+            let records = JSON.parse(localStorage.getItem(`oilRecords_${plateNumber}`)) || [];
+            records.splice(index, 1); // Remove the record at the given index
+            localStorage.setItem(`oilRecords_${plateNumber}`, JSON.stringify(records));
+            displayRecords(records); // Refresh the displayed records
+        }
+
+        function loadRecords() {
+            const records = JSON.parse(localStorage.getItem(`oilRecords_${plateNumber}`)) || [];
+            displayRecords(records);
+        }
+
+        function showAlert(oilDate, oilValidity) {
+            const alertBox = document.getElementById("alertBox");
+            if (oilDate && oilValidity) {
+                const expirationDate = new Date(oilDate);
+                expirationDate.setMonth(expirationDate.getMonth() + parseInt(oilValidity));
+
+                const today = new Date();
+                const timeDifference = expirationDate - today;
+
+                if (timeDifference > 0) {
+                    const remainingMonths = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
+                    const remainingDays = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+
+                    alertBox.innerText = `تبقى ${remainingMonths} شهراً و ${remainingDays} يوماً لتغيير الزيت`;
+                    alertBox.className = "alert-box"; // Remove 'warning' class if added
+                    alertBox.style.display = "block"; // Show the alert
+                } else {
+                    alertBox.innerText = "انتهت صلاحية الزيت! لا تنتظر حتى تتعرض سيارتك لأضرار فادحة، قم بتغيير الزيت فورًا لضمان الأداء المثالي!";
+                    alertBox.className = "alert-box warning"; // Add 'warning' class
+                    alertBox.style.display = "block"; // Show the alert
+                }
+            }
+        }
+    </script>
+</body>
+</html>

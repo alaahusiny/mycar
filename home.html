@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCar - تسجيل</title>
+    <style>
+        /* إعدادات عامة */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #DCDCE6; /* لون الخلفية الأساسي */
+            color: #A40D20; /* لون النص */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            background-color: #FFFFFF; /* لون خلفية النموذج */
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* الشعار */
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 5px;
+        }
+
+        /* عناوين */
+        h2 {
+            margin-bottom: 20px;
+            color: #D0011B;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: right; /* إمالة النص لليمين */
+        }
+
+        input, button {
+            width: calc(100% - 20px); /* التحكم بعرض الحقول */
+            padding: 8px; /* التحكم بحجم البوكس */
+            margin-bottom: 10px;
+            border: 1px solid #DCDCE6;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: right; /* إمالة النص لليمين */
+        }
+
+        input::placeholder {
+            text-align: right; /* نص الحقل مائل لليمين */
+        }
+
+        input:focus {
+            outline: none;
+            border: 1px solid #A40D20;
+        }
+
+        button {
+            background-color: #D0011B;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center; /* لضمان محاذاة النص في المنتصف */
+            padding: 12px 0; /* إضافة padding لضبط الحجم بشكل مناسب */
+            width: 100%; /* جعل الزر يستفيد من العرض الكامل */
+        }
+
+        button:hover {
+            background-color: #A40D20;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 7px;
+            font-size: 14px;
+            color: #A40D20;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const registerForm = document.getElementById("registerForm");
+            const loginForm = document.getElementById("loginForm");
+
+            const switchToLogin = document.getElementById("switchToLogin");
+            const switchToRegister = document.getElementById("switchToRegister");
+
+            // تسجيل البيانات عند التسجيل
+            registerForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const userData = {
+                    username: document.getElementById("username").value,
+                    carType: document.getElementById("carType").value,
+                    productionYear: document.getElementById("productionYear").value,
+                    carPlate: document.getElementById("carPlate").value,
+                    licenseExpiry: document.getElementById("licenseExpiry").value,
+                    annualExpiry: document.getElementById("annualExpiry").value
+                };
+                localStorage.setItem("userData", JSON.stringify(userData)); // تخزين البيانات
+                alert("تم التسجيل بنجاح!");
+                registerForm.classList.add("hidden");
+                loginForm.classList.remove("hidden");
+            });
+
+            // التحقق من البيانات عند تسجيل الدخول
+            loginForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const carPlateInput = document.getElementById("loginCarPlate").value;
+                const storedData = JSON.parse(localStorage.getItem("userData"));
+
+                if (storedData && storedData.carPlate === carPlateInput) {
+                    alert("تم تسجيل الدخول بنجاح!");
+                    window.location.href = "start.html"; // الانتقال إلى صفحة البداية بعد الدخول
+                } else {
+                    alert("رقم لوحة السيارة غير صحيح!");
+                }
+            });
+
+            // التبديل بين نموذج التسجيل ونموذج الدخول
+            switchToLogin.addEventListener("click", () => {
+                registerForm.classList.add("hidden");
+                loginForm.classList.remove("hidden");
+            });
+
+            switchToRegister.addEventListener("click", () => {
+                loginForm.classList.add("hidden");
+                registerForm.classList.remove("hidden");
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- الشعار -->
+        <img src="Images/logo.png" alt="شعار MyCar" class="logo">
+
+        <!-- نموذج تسجيل جديد -->
+        <form id="registerForm">
+            <h2>تسجيل جديد</h2>
+            <label for="username">اسم المستخدم:</label>
+            <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+
+            <label for="carType">نوع السيارة:</label>
+            <input type="text" id="carType" placeholder="أدخل نوع السيارة" required>
+
+            <label for="productionYear">تاريخ الإنتاج:</label>
+            <input type="number" id="productionYear" placeholder="أدخل سنة الإنتاج" required>
+
+            <label for="carPlate">رقم لوحة السيارة:</label>
+            <input type="number" id="carPlate" placeholder="أدخل رقم لوحة السيارة" required>
+
+            <label for="licenseExpiry">تاريخ نفاد الرخصة:</label>
+            <input type="date" id="licenseExpiry" required>
+
+            <label for="annualExpiry">تاريخ نفاد السنوية:</label>
+            <input type="date" id="annualExpiry" required>
+
+            <button type="submit">تسجيل</button>
+            <div class="switch-link" id="switchToLogin">تمتلك حساب؟ تسجيل دخول</div>
+        </form>
+
+        <!-- نموذج تسجيل الدخول -->
+        <form id="loginForm" class="hidden">
+            <h2>تسجيل الدخول</h2>
+            <label for="loginCarPlate">رقم لوحة السيارة:</label>
+            <input type="number" id="loginCarPlate" placeholder="أدخل رقم لوحة السيارة" required>
+
+            <button type="submit">تسجيل الدخول</button>
+            <div class="switch-link" id="switchToRegister">لا تمتلك حساباً؟ تسجيل جديد</div>
+        </form>
+    </div>
+</body>
+</html>

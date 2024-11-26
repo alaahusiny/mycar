@@ -3,232 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCar - تسجيل</title>
+    <title>MyCar - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         /* إعدادات عامة */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background-color: #DCDCE6; /* لون الخلفية الأساسي */
-            color: #A40D20; /* لون النص */
+            background-color: #DCDCE6; /* اللون الرئيسي */
+            color: #A40D20;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             height: 100vh;
+            padding-top: 10px; /* تقليل المسافة العليا */
+        }
+
+        /* الأيقونات العلوية */
+        .top-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 97%;
+        }
+
+        .top-icons a {
+            color: #A40D20;
+            font-size: 18px; /* حجم الأيقونة */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .top-icons a:hover {
+            color: #D0011B;
         }
 
         /* الحاوية الرئيسية */
         .container {
-            background-color: #FFFFFF; /* لون خلفية النموذج */
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 90%;
-            max-width: 400px;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-top: 20px;
         }
 
-        /* الشعار */
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 5px;
-        }
-
-        /* عناوين */
-        h2 {
-            margin-bottom: 20px;
-            color: #D0011B;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            text-align: right; /* إمالة النص لليمين */
-        }
-
-        input, button {
-            width: calc(100% - 20px); /* التحكم بعرض الحقول */
-            padding: 8px; /* التحكم بحجم البوكس */
-            margin-bottom: 10px;
-            border: 1px solid #DCDCE6;
-            border-radius: 5px;
-            font-size: 14px;
-            text-align: right; /* إمالة النص لليمين */
-        }
-
-        input::placeholder {
-            text-align: right; /* نص الحقل مائل لليمين */
-        }
-
-        input:focus {
-            outline: none;
-            border: 1px solid #A40D20;
-        }
-
-        button {
+        /* الأزرار الرئيسية */
+        .button {
             background-color: #D0011B;
             color: #FFFFFF;
+            padding: 20px;
+            font-size: 18px;
             border: none;
+            border-radius: 10px;
+            margin: 15px 0;
+            width: 100%;
             cursor: pointer;
-            font-weight: bold;
-            text-align: center; /* لضمان محاذاة النص في المنتصف */
-            padding: 12px 0; /* إضافة padding لضبط الحجم بشكل مناسب */
-            width: 100%; /* جعل الزر يستفيد من العرض الكامل */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
         }
 
-        button:hover {
+        .button:hover {
             background-color: #A40D20;
         }
 
-        .hidden {
-            display: none;
+        /* تخصيص الألوان لكل زر */
+        .fuel {
+            background-color: #D0011B;
         }
 
-        .switch-link {
+        .oil {
+            background-color: #D0011B;
+        }
+
+        .maintenance {
+            background-color: #D0011B;
+        }
+
+        .licenses {
+            background-color: #D0011B;
+        }
+
+        /* أيقونات داخل الأزرار */
+        .button i {
+            margin-left: 15px; /* الفصل بين النص والأيقونة */
+            font-size: 24px;
+        }
+
+        /* النصائح العامة */
+        .tips-container {
+            background: rgba(255, 255, 255, 0.9); /* شفافية الخلفية */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: auto;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .tips-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D0011B;
+            margin-bottom: 20px;
             text-align: center;
-            margin-top: 7px;
-            font-size: 14px;
+        }
+
+        .tip {
+            margin-bottom: 20px;
+        }
+
+        .tip h4 {
+            font-size: 18px;
             color: #A40D20;
-            cursor: pointer;
-            text-decoration: underline;
+            margin-bottom: 8px;
         }
 
-        /* تنسيق الحقول المتجاورة */
-        .input-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 3px; /* المسافة الفاصلة بين الحقول */
+        .tip p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
         }
 
-        .input-group input {
-            width:90%; /* تحديد عرض الحقل ليأخذ نصف العرض */
+        .tip:nth-child(even) {
+            background: rgba(240, 240, 240, 0.5);
+            border-radius: 10px;
+            padding: 10px;
         }
-
-       /* حقل تاريخ نفاد الرخصة */
-        #licenseExpiry {
-            width: 100%; /* تحديد عرض الحقل */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-left: 2; /* إزالة المسافة الفاصلة من الجهة اليسرى */
-            margin-right: 3px; /* إضافة مسافة فاصلة إلى الحقل */
-        }
-
-        /* حقل تاريخ نفاد السنوية */
-        #annualExpiry {
-            width: 90%; /* تحديد عرض الحقل */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-left: 60px; /* إضافة مسافة فاصلة من الجهة اليسرى */
-            margin-right: 1; /* إزالة المسافة الفاصلة من الجهة اليمنى */
-        }
-
-        /* التحكم في المسافة الفاصلة بين الحقول */
-        .input-group-double {
-            display: flex;
-            justify-content: space-between; /* توزيع الحقول على كامل العرض */
-            gap: 1px; /* المسافة الفاصلة بين الحقول */
-        }
-
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const registerForm = document.getElementById("registerForm");
-            const loginForm = document.getElementById("loginForm");
-
-            const switchToLogin = document.getElementById("switchToLogin");
-            const switchToRegister = document.getElementById("switchToRegister");
-
-            // تسجيل البيانات عند التسجيل
-            registerForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const userData = {
-                    username: document.getElementById("username").value,
-                    carType: document.getElementById("carType").value,
-                    productionYear: document.getElementById("productionYear").value,
-                    carPlate: document.getElementById("carPlate").value,
-                    licenseExpiry: document.getElementById("licenseExpiry").value,
-                    annualExpiry: document.getElementById("annualExpiry").value
-                };
-                localStorage.setItem("userData", JSON.stringify(userData)); // تخزين البيانات
-                registerForm.classList.add("hidden");
-                loginForm.classList.remove("hidden");
-            });
-
-            // التحقق من البيانات عند تسجيل الدخول
-            loginForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                const carPlateInput = document.getElementById("loginCarPlate").value;
-                const storedData = JSON.parse(localStorage.getItem("userData"));
-
-                if (storedData && storedData.carPlate === carPlateInput) {
-                    window.location.href = "start.html"; // الانتقال إلى صفحة البداية بعد الدخول
-                } else {
-                    alert("رقم لوحة السيارة غير صحيح!");
-                }
-            });
-
-            // التبديل بين نموذج التسجيل ونموذج الدخول
-            switchToLogin.addEventListener("click", () => {
-                registerForm.classList.add("hidden");
-                loginForm.classList.remove("hidden");
-            });
-
-            switchToRegister.addEventListener("click", () => {
-                loginForm.classList.add("hidden");
-                registerForm.classList.remove("hidden");
-            });
-        });
-    </script>
 </head>
 <body>
+    <!-- أيقونات أعلى الصفحة -->
+    <div class="top-icons">
+        <a href="pages/about.html"><i class="fas fa-info-circle"></i></a>
+        <!-- إضافة رابط لتسجيل الخروج -->
+    </div>
+
+    <!-- الحاوية الرئيسية -->
     <div class="container">
-        <!-- الشعار -->
-        <img src="Images/logo.png" alt="شعار MyCar" class="logo">
+        <!-- الأزرار الرئيسية مع الأيقونات -->
+        <button class="button fuel" onclick="window.location.href='pages/Fuel.html'">
+            <i class="fas fa-gas-pump"></i> قسم الوقود 
+        </button>
+        <button class="button oil" onclick="window.location.href='pages/Oil.html'">
+            <i class="fas fa-oil-can"></i> قسم الزيت
+        </button>
+        <button class="button maintenance" onclick="window.location.href='pages/Maintenance.html'">
+            <i class="fas fa-wrench"></i> قسم الصيانة
+        </button>
+        <button class="button licenses" onclick="window.location.href='pages/Licenses.html'">
+            <i class="fas fa-id-card"></i>  قسم الإجازة والسنوية 
+        </button>
+    </div>
 
-        <!-- نموذج تسجيل جديد -->
-        <form id="registerForm">
-            <h2>ادخل بيانات سيارتك للتسجيل</h2>
-            <label for="username">اسم المستخدم:</label>
-            <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
-
-            <div class="input-group">
-                <div>
-                    <label for="carType">نوع السيارة:</label>
-                    <input type="text" id="carType" placeholder="أدخل نوع السيارة" required>
-                </div>
-                <div>
-                    <label for="productionYear">تاريخ الإنتاج:</label>
-                    <input type="number" id="productionYear" placeholder="أدخل سنة الإنتاج" required>
-                </div>
-            </div>
-
-            <label for="carPlate">رقم لوحة السيارة:</label>
-            <input type="number" id="carPlate" placeholder="أدخل رقم لوحة السيارة" required>
-
-            <div class="input-group-double">
-                <div>
-                    <label for="licenseExpiry">تاريخ نفاد الرخصة:</label>
-                    <input type="date" id="licenseExpiry" required>
-                </div>
-                <div>
-                    <label for="annualExpiry">تاريخ نفاد السنوية:</label>
-                    <input type="date" id="annualExpiry" required>
-                </div>
-            </div>
-
-            <button type="submit">تسجيل</button>
-            <div class="switch-link" id="switchToLogin">تمتلك حساب؟ تسجيل دخول</div>
-        </form>
-
-        <!-- نموذج تسجيل الدخول -->
-        <form id="loginForm" class="hidden">
-            <label for="loginCarPlate">رقم لوحة السيارة:</label>
-            <input type="number" id="loginCarPlate" placeholder="أدخل رقم لوحة السيارة الذي اضفته عند التسجيل" required>
-
-            <button type="submit">تسجيل الدخول</button>
-            <div class="switch-link" id="switchToRegister">لا تمتلك حساباً؟ تسجيل جديد</div>
-        </form>
+    <!-- النصائح العامة -->
+    <div class="tips-container">
+        <div class="tips-title">النصائح العامة</div>
+        <div class="tip">
+            <h4>لتوفير الوقود:</h4>
+            <p>تجنب الضغط المفاجئ على دواسة الوقود أو الفرامل، وحافظ على سرعة متوسطة وثابتة أثناء القيادة. قم بإطفاء المحرك إذا كنت متوقفًا لأكثر من دقيقة، وتأكد من أن ضغط الإطارات صحيح. أزل أي أوزان زائدة من السيارة، وتجنب القيادة بسرعات عالية جدًا، حيث إن السرعة المثلى تتراوح بين 50-90 كم/ساعة.</p>
+        </div>
+        <div class="tip">
+            <h4>لصيانة السيارة:</h4>
+            <p> افحص مستوى زيت المحرك بانتظام وقم بتغييره في الوقت المحدد. نظف فلتر الهواء بشكل دوري، وافحص مستوى السوائل مثل سائل التبريد وسائل الفرامل. تأكد من حالة الإطارات قبل الرحلات الطويلة، ولا تهمل إنذارات لوحة القيادة.</p>
+        </div>
+        <div class="tip">
+            <h4>للقيادة الآمنة:</h4>
+            <p>حافظ على مسافة أمان كافية مع السيارة التي أمامك، والتزم بإشارات المرور والسرعات المحددة. لا تستخدم الهاتف أثناء القيادة، واربط حزام الأمان لك وللركاب.</p>
+        </div>
+        <div class="tip">
+            <h4>في الطقس الحار:</h4>
+            <p>اركن السيارة في الظل لتجنب ارتفاع حرارة المحرك، واستخدم واقيات الشمس. تأكد من مستوى سائل التبريد وافحص البطارية بانتظام.</p>
+        </div>
+        <div class="tip">
+            <h4>في الطقس السيئ:</h4>
+            <p>افحص المساحات قبل موسم الأمطار، وخفف السرعة في الطرق المبتلة لتجنب الانزلاق. استخدم الإضاءة المنخفضة أثناء القيادة في الضباب، وتجنب القيادة عبر المياه العميقة.</p>
+        </div>
+        <div class="tip">
+            <h4>لإطالة عمر السيارة:</h4>
+            <p>قم بتسخين المحرك لبضع دقائق قبل الانطلاق في الشتاء، وتجنب القيادة بسرعة فور تشغيل المحرك. لا تملأ خزان الوقود بشكل زائد، وحافظ على جدول الصيانة الدوري. نظف السيارة من الداخل والخارج بانتظام.</p>
+        </div>
+        <div class="tip">
+            <h4>للحفاظ على البطارية:</h4>
+            <p> أطفئ المصابيح والراديو قبل إطفاء المحرك، وتحقق من قوة البطارية كل 6 أشهر. إذا كنت لا تستخدم السيارة لفترة طويلة، قم بفصل البطارية.</p>
+        </div>
     </div>
 </body>
 </html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قسم الصيانة</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            background-color: #398E3D; /* اللون المطلوب */
+            color: #FFFFFF;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            font-size: 24px;
+            text-align: center;
+        }
+        input, button {
+            width: 90%;
+            margin: 10px auto;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input {
+            background-color: #F9F9F9;
+            color: #000;
+            border: 1px solid #E0E0E0;
+        }
+        input::placeholder {
+            color: #757575;
+        }
+        button {
+            background-color: #398E3D; /* اللون المطلوب */
+            color: #FFFFFF;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #66BB6A;
+        }
+        .record-container {
+            margin-top: 20px;
+            text-align: center;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .record-item {
+            background-color: #FFF3E0;
+            color: #000;
+            padding: 10px;
+            margin: 10px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: right;
+            width: 90%;
+        }
+        .delete-icon {
+            color: #E53935;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .delete-icon:hover {
+            color: #D32F2F;
+        }
+        .back-icon {
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .back-icon i {
+            font-size: 25px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="back-icon" onclick="goToStartPage()">
+            <i class="fas fa-arrow-circle-left"></i>
+        </div>
+
+        <h1>إدارة الصيانة</h1>
+
+        <!-- حقل نوع الصيانة -->
+        <input id="maintenanceType" type="text" placeholder="نوع الصيانة أو القطعة المستبدلة" required>
+
+        <!-- حقل كلفة الصيانة بالدينار العراقي -->
+        <input id="maintenanceCost" type="number" placeholder="أدخل الكلفة بالدينار العراقي" required>
+
+        <!-- حقل تاريخ التغيير -->
+        <input id="maintenanceDate" type="date" required>
+
+        <!-- زر الحفظ -->
+        <button class="save-btn" onclick="saveRecord()">حفظ</button>
+
+        <!-- السجل -->
+        <div id="recordContainer" class="record-container">
+            <div id="recordList"></div>
+        </div>
+    </div>
+
+    <script>
+        const carPlate = "default";
+
+        window.onload = function() {
+            loadRecords();
+        };
+
+        function goToStartPage() {
+            window.location.href = "../start.html";
+        }
+
+        function saveRecord() {
+            const maintenanceType = document.getElementById("maintenanceType").value;
+            const maintenanceCost = document.getElementById("maintenanceCost").value;
+            const maintenanceDate = document.getElementById("maintenanceDate").value;
+
+            if (!maintenanceType || !maintenanceCost || !maintenanceDate) {
+                alert("يرجى ملء جميع الحقول المطلوبة!");
+                return;
+            }
+
+            const record = { maintenanceType, maintenanceCost, maintenanceDate };
+            let records = JSON.parse(localStorage.getItem(carPlate)) || [];
+            records.push(record);
+            localStorage.setItem(carPlate, JSON.stringify(records));
+
+            displayRecord(record, records.length - 1);
+
+            document.getElementById("maintenanceType").value = "";
+            document.getElementById("maintenanceCost").value = "";
+            document.getElementById("maintenanceDate").value = "";
+        }
+
+        function displayRecord(record, index) {
+            const recordList = document.getElementById("recordList");
+            const recordItem = document.createElement("div");
+            recordItem.className = "record-item";
+            recordItem.innerHTML = `
+                نوع الصيانة: ${record.maintenanceType} | الكلفة: ${record.maintenanceCost} دينار | التاريخ: ${record.maintenanceDate}
+                <i class="fas fa-trash delete-icon" onclick="deleteRecord(${index})"></i>
+            `;
+            recordList.appendChild(recordItem);
+        }
+
+        function loadRecords() {
+            const records = JSON.parse(localStorage.getItem(carPlate)) || [];
+            document.getElementById("recordList").innerHTML = "";
+
+            records.forEach((record, index) => {
+                displayRecord(record, index);
+            });
+        }
+
+        function deleteRecord(index) {
+            let records = JSON.parse(localStorage.getItem(carPlate));
+            records.splice(index, 1);
+            localStorage.setItem(carPlate, JSON.stringify(records));
+            loadRecords();
+        }
+    </script>
+</body>
+</html>

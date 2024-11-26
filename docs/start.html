@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCar - الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* إعدادات عامة */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #DCDCE6; /* اللون الرئيسي */
+            color: #A40D20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 10px; /* تقليل المسافة العليا */
+        }
+
+        /* الأيقونات العلوية */
+        .top-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 97%;
+        }
+
+        .top-icons a {
+            color: #A40D20;
+            font-size: 18px; /* حجم الأيقونة */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .top-icons a:hover {
+            color: #D0011B;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* الأزرار الرئيسية */
+        .button {
+            background-color: #D0011B;
+            color: #FFFFFF;
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            margin: 15px 0;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #A40D20;
+        }
+
+        /* تخصيص الألوان لكل زر */
+        .fuel {
+            background-color: #F9A825;
+        }
+
+        .oil {
+            background-color: #0288D1;
+        }
+
+        .maintenance {
+            background-color: #388E3C;
+        }
+
+        .licenses {
+            background-color: #8E24AA;
+        }
+
+        /* أيقونات داخل الأزرار */
+        .button i {
+            margin-left: 15px; /* الفصل بين النص والأيقونة */
+            font-size: 24px;
+        }
+
+        /* النصائح العامة */
+        .tips-container {
+            background: rgba(255, 255, 255, 0.9); /* شفافية الخلفية */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: auto;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .tips-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D0011B;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tip {
+            margin-bottom: 20px;
+        }
+
+        .tip h4 {
+            font-size: 18px;
+            color: #A40D20;
+            margin-bottom: 8px;
+        }
+
+        .tip p {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .tip:nth-child(even) {
+            background: rgba(240, 240, 240, 0.5);
+            border-radius: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- أيقونات أعلى الصفحة -->
+    <div class="top-icons">
+        <a href="pages/about.html"><i class="fas fa-info-circle"></i></a>
+        <a href="../home.html"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+
+    <!-- الحاوية الرئيسية -->
+    <div class="container">
+        <!-- الأزرار الرئيسية مع الأيقونات -->
+        <button class="button fuel" onclick="window.location.href='pages/Fuel.html'">
+            <i class="fas fa-gas-pump"></i> الوقود
+        </button>
+        <button class="button oil" onclick="window.location.href='pages/Oil.html'">
+            <i class="fas fa-oil-can"></i> الزيت
+        </button>
+        <button class="button maintenance" onclick="window.location.href='pages/Maintenance.html'">
+            <i class="fas fa-wrench"></i> الصيانة
+        </button>
+        <button class="button licenses" onclick="window.location.href='pages/Licenses.html'">
+            <i class="fas fa-id-card"></i> الرخص
+        </button>
+    </div>
+
+    <!-- النصائح العامة -->
+    <div class="tips-container">
+        <div class="tips-title">النصائح العامة</div>
+        <div class="tip">
+            <h4>لتوفير الوقود:</h4>
+            <p>تجنب الضغط المفاجئ على دواسة الوقود أو الفرامل، وحافظ على سرعة متوسطة وثابتة أثناء القيادة. قم بإطفاء المحرك إذا كنت متوقفًا لأكثر من دقيقة، وتأكد من أن ضغط الإطارات صحيح. أزل أي أوزان زائدة من السيارة، وتجنب القيادة بسرعات عالية جدًا، حيث إن السرعة المثلى تتراوح بين 50-90 كم/ساعة.</p>
+        </div>
+        <div class="tip">
+            <h4>لصيانة السيارة:</h4>
+            <p> افحص مستوى زيت المحرك بانتظام وقم بتغييره في الوقت المحدد. نظف فلتر الهواء بشكل دوري، وافحص مستوى السوائل مثل سائل التبريد وسائل الفرامل. تأكد من حالة الإطارات قبل الرحلات الطويلة، ولا تهمل إنذارات لوحة القيادة.</p>
+        </div>
+        <div class="tip">
+            <h4>للقيادة الآمنة:</h4>
+            <p>حافظ على مسافة أمان كافية مع السيارة التي أمامك، والتزم بإشارات المرور والسرعات المحددة. لا تستخدم الهاتف أثناء القيادة، واربط حزام الأمان لك وللركاب.</p>
+        </div>
+        <div class="tip">
+            <h4>في الطقس الحار:</h4>
+            <p>اركن السيارة في الظل لتجنب ارتفاع حرارة المحرك، واستخدم واقيات الشمس. تأكد من مستوى سائل التبريد وافحص البطارية بانتظام.</p>
+        </div>
+        <div class="tip">
+            <h4>في الطقس السيئ:</h4>
+            <p>افحص المساحات قبل موسم الأمطار، وخفف السرعة في الطرق المبتلة لتجنب الانزلاق. استخدم الإضاءة المنخفضة أثناء القيادة في الضباب، وتجنب القيادة عبر المياه العميقة.</p>
+        </div>
+        <div class="tip">
+            <h4>لإطالة عمر السيارة:</h4>
+            <p>قم بتسخين المحرك لبضع دقائق قبل الانطلاق في الشتاء، وتجنب القيادة بسرعة فور تشغيل المحرك. لا تملأ خزان الوقود بشكل زائد، وحافظ على جدول الصيانة الدوري. نظف السيارة من الداخل والخارج بانتظام.</p>
+        </div>
+        <div class="tip">
+            <h4>للحفاظ على البطارية:</h4>
+            <p> أطفئ المصابيح والراديو قبل إطفاء المحرك، وتحقق من قوة البطارية كل 6 أشهر. إذا كنت لا تستخدم السيارة لفترة طويلة، قم بفصل البطارية.</p>
+        </div>
+    </div>
+</body>
+</html>

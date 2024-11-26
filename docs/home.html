@@ -116,7 +116,6 @@
                     annualExpiry: document.getElementById("annualExpiry").value
                 };
                 localStorage.setItem("userData", JSON.stringify(userData)); // تخزين البيانات
-                alert("تم التسجيل بنجاح!");
                 registerForm.classList.add("hidden");
                 loginForm.classList.remove("hidden");
             });
@@ -128,7 +127,6 @@
                 const storedData = JSON.parse(localStorage.getItem("userData"));
 
                 if (storedData && storedData.carPlate === carPlateInput) {
-                    alert("تم تسجيل الدخول بنجاح!");
                     window.location.href = "start.html"; // الانتقال إلى صفحة البداية بعد الدخول
                 } else {
                     alert("رقم لوحة السيارة غير صحيح!");

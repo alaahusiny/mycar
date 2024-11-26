@@ -95,6 +95,41 @@
             cursor: pointer;
             text-decoration: underline;
         }
+
+        /* تنسيق الحقول المتجاورة */
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 3px; /* المسافة الفاصلة بين الحقول */
+        }
+
+        .input-group input {
+            width:90%; /* تحديد عرض الحقل ليأخذ نصف العرض */
+        }
+
+       /* حقل تاريخ نفاد الرخصة */
+        #licenseExpiry {
+            width: 100%; /* تحديد عرض الحقل */
+            text-align: right; /* محاذاة النص لليمين */
+            margin-left: 2; /* إزالة المسافة الفاصلة من الجهة اليسرى */
+            margin-right: 3px; /* إضافة مسافة فاصلة إلى الحقل */
+        }
+
+        /* حقل تاريخ نفاد السنوية */
+        #annualExpiry {
+            width: 90%; /* تحديد عرض الحقل */
+            text-align: right; /* محاذاة النص لليمين */
+            margin-left: 60px; /* إضافة مسافة فاصلة من الجهة اليسرى */
+            margin-right: 1; /* إزالة المسافة الفاصلة من الجهة اليمنى */
+        }
+
+        /* التحكم في المسافة الفاصلة بين الحقول */
+        .input-group-double {
+            display: flex;
+            justify-content: space-between; /* توزيع الحقول على كامل العرض */
+            gap: 1px; /* المسافة الفاصلة بين الحقول */
+        }
+
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -153,24 +188,34 @@
 
         <!-- نموذج تسجيل جديد -->
         <form id="registerForm">
-            <h2>تسجيل جديد</h2>
+            <h2>ادخل بيانات سيارتك للتسجيل</h2>
             <label for="username">اسم المستخدم:</label>
             <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
 
-            <label for="carType">نوع السيارة:</label>
-            <input type="text" id="carType" placeholder="أدخل نوع السيارة" required>
-
-            <label for="productionYear">تاريخ الإنتاج:</label>
-            <input type="number" id="productionYear" placeholder="أدخل سنة الإنتاج" required>
+            <div class="input-group">
+                <div>
+                    <label for="carType">نوع السيارة:</label>
+                    <input type="text" id="carType" placeholder="أدخل نوع السيارة" required>
+                </div>
+                <div>
+                    <label for="productionYear">تاريخ الإنتاج:</label>
+                    <input type="number" id="productionYear" placeholder="أدخل سنة الإنتاج" required>
+                </div>
+            </div>
 
             <label for="carPlate">رقم لوحة السيارة:</label>
             <input type="number" id="carPlate" placeholder="أدخل رقم لوحة السيارة" required>
 
-            <label for="licenseExpiry">تاريخ نفاد الرخصة:</label>
-            <input type="date" id="licenseExpiry" required>
-
-            <label for="annualExpiry">تاريخ نفاد السنوية:</label>
-            <input type="date" id="annualExpiry" required>
+            <div class="input-group-double">
+                <div>
+                    <label for="licenseExpiry">تاريخ نفاد الرخصة:</label>
+                    <input type="date" id="licenseExpiry" required>
+                </div>
+                <div>
+                    <label for="annualExpiry">تاريخ نفاد السنوية:</label>
+                    <input type="date" id="annualExpiry" required>
+                </div>
+            </div>
 
             <button type="submit">تسجيل</button>
             <div class="switch-link" id="switchToLogin">تمتلك حساب؟ تسجيل دخول</div>
@@ -178,9 +223,8 @@
 
         <!-- نموذج تسجيل الدخول -->
         <form id="loginForm" class="hidden">
-            <h2>تسجيل الدخول</h2>
             <label for="loginCarPlate">رقم لوحة السيارة:</label>
-            <input type="number" id="loginCarPlate" placeholder="أدخل رقم لوحة السيارة" required>
+            <input type="number" id="loginCarPlate" placeholder="أدخل رقم لوحة السيارة الذي اضفته عند التسجيل" required>
 
             <button type="submit">تسجيل الدخول</button>
             <div class="switch-link" id="switchToRegister">لا تمتلك حساباً؟ تسجيل جديد</div>

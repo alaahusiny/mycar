@@ -18,7 +18,7 @@
             position: relative;
         }
         h1 {
-            background-color: #8E24AA;
+            background-color: #D0011B;
             color: #FFFFFF;
             padding: 15px;
             margin: -20px -20px 20px -20px;
@@ -86,13 +86,13 @@
         <div class="back-icon" onclick="goToStartPage()">
             <i class="fas fa-arrow-circle-left"></i>
         </div>
-        <h1>بيانات الرخص</h1>
+        <h1>  قسم الإجازة والسنوية</h1>
 
         <!-- License Box -->
         <div class="license-info">
-            <h3>رخصة القيادة</h3>
+            <h3>إجازة السوق</h3>
             <p>
-                <strong>تاريخ نفاد رخصة القيادة:</strong>
+                <strong>تاريخ نفاد  إجازة السوق:</strong>
                 <input type="date" id="licenseExpiry">
             </p>
             <p id="licenseStatus"></p>
@@ -143,11 +143,11 @@
                 const licenseStatus = document.getElementById("licenseStatus");
                 const licenseRemainingTime = calculateRemainingTime(licenseExpiry);
                 if (licenseRemainingTime.years < 0 || (licenseRemainingTime.years === 0 && licenseRemainingTime.months < 0) || (licenseRemainingTime.years === 0 && licenseRemainingTime.months === 0 && licenseRemainingTime.days < 0)) {
-                    licenseStatus.innerText = `رخصة القيادة انتهت منذ ${Math.abs(licenseRemainingTime.years)} سنة و ${Math.abs(licenseRemainingTime.months)} شهر و ${Math.abs(licenseRemainingTime.days)} يومًا`;
+                    licenseStatus.innerText = `إجازة السوق انتهت منذ ${Math.abs(licenseRemainingTime.years)} سنة و ${Math.abs(licenseRemainingTime.months)} شهر و ${Math.abs(licenseRemainingTime.days)} يومًا`;
                     licenseStatus.classList.add("expired");
                     licenseStatus.classList.remove("valid");
                 } else {
-                    licenseStatus.innerText = `ستنتهي رخصة القيادة بعد ${licenseRemainingTime.years} سنة و ${licenseRemainingTime.months} شهر و ${licenseRemainingTime.days} يومًا`;
+                    licenseStatus.innerText = `ستنتهي إجازة السوق بعد ${licenseRemainingTime.years} سنة و ${licenseRemainingTime.months} شهر و ${licenseRemainingTime.days} يومًا`;
                     licenseStatus.classList.add("valid");
                     licenseStatus.classList.remove("expired");
                 }

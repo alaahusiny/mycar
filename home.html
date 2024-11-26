@@ -6,12 +6,16 @@
     <title>MyCar - تسجيل</title>
     <style>
         /* إعدادات عامة */
-        body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box; /* يجعل جميع الحقول تأخذ الحجم المتوقع */
+        }
+
+        body {
             font-family: 'Arial', sans-serif;
-            background-color: #DCDCE6; /* لون الخلفية الأساسي */
-            color: #A40D20; /* لون النص */
+            background-color: #DCDCE6;
+            color: #A40D20;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -20,20 +24,25 @@
 
         /* الحاوية الرئيسية */
         .container {
-            background-color: #FFFFFF; /* لون خلفية النموذج */
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+            width: 95%;
             max-width: 400px;
             text-align: center;
         }
+        
 
-        /* الشعار */
+        /* صندوق الشعار */
+        .logo-container {
+            margin-bottom: 80px;
+        }
+
         .logo {
-            width: 150px;
+            width: 180px;
             height: auto;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         /* عناوين */
@@ -46,21 +55,21 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            text-align: right; /* إمالة النص لليمين */
+            text-align: right;
         }
 
         input, button {
-            width: calc(100% - 20px); /* التحكم بعرض الحقول */
-            padding: 8px; /* التحكم بحجم البوكس */
+            width: 100%;
+            padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #DCDCE6;
             border-radius: 5px;
             font-size: 14px;
-            text-align: right; /* إمالة النص لليمين */
+            text-align: right;
         }
 
         input::placeholder {
-            text-align: right; /* نص الحقل مائل لليمين */
+            text-align: right;
         }
 
         input:focus {
@@ -74,9 +83,9 @@
             border: none;
             cursor: pointer;
             font-weight: bold;
-            text-align: center; /* لضمان محاذاة النص في المنتصف */
-            padding: 12px 0; /* إضافة padding لضبط الحجم بشكل مناسب */
-            width: 100%; /* جعل الزر يستفيد من العرض الكامل */
+            text-align: center;
+            padding: 12px 0;
+            width: 100%;
         }
 
         button:hover {
@@ -97,39 +106,44 @@
         }
 
         /* تنسيق الحقول المتجاورة */
-        .input-group {
+        .input-group, .input-group-double {
             display: flex;
-            justify-content: space-between;
-            gap: 3px; /* المسافة الفاصلة بين الحقول */
+            gap: 10px; /* مسافة متساوية بين الحقول */
+        }
+        /* إعدادات عامة لحقول التاريخ */
+        .input-group-double input[type="date"] {
+            width: 160px; /* عرض الحقل */
+            height: 40px; /* ارتفاع الحقل */
+            padding: 10px; /* الحشوة الداخلية */
+            font-size: 14px; /* حجم الخط */
+            border: 1px solid #DCDCE6;
+            border-radius: 5px;
         }
 
-        .input-group input {
-            width:90%; /* تحديد عرض الحقل ليأخذ نصف العرض */
+        .input-group-double input[type="date"]:focus {
+            outline: none;
+            border: 1px solid #A40D20;
         }
 
-       /* حقل تاريخ نفاد الرخصة */
-        #licenseExpiry {
-            width: 100%; /* تحديد عرض الحقل */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-left: 2; /* إزالة المسافة الفاصلة من الجهة اليسرى */
-            margin-right: 3px; /* إضافة مسافة فاصلة إلى الحقل */
+        .input-group-double input {
+            flex: 1; /* يجعل الحقول تأخذ نفس العرض */
+            margin-right: 0; /* يزيل أي تباعد غير مرغوب */
         }
 
-        /* حقل تاريخ نفاد السنوية */
-        #annualExpiry {
-            width: 90%; /* تحديد عرض الحقل */
-            text-align: right; /* محاذاة النص لليمين */
-            margin-left: 60px; /* إضافة مسافة فاصلة من الجهة اليسرى */
-            margin-right: 1; /* إزالة المسافة الفاصلة من الجهة اليمنى */
+        .input-group-double label {
+            text-align: right; /* تأكد أن النصوص متناسقة */
+            display: block; /* يظهر النص فوق الحقل */
         }
 
-        /* التحكم في المسافة الفاصلة بين الحقول */
         .input-group-double {
             display: flex;
-            justify-content: space-between; /* توزيع الحقول على كامل العرض */
-            gap: 1px; /* المسافة الفاصلة بين الحقول */
+            gap: 10px; /* مسافة متساوية بين الحقول */
         }
 
+        .input-group input,
+        .input-group-double input {
+            flex: 1; /* جعل الحقول مرنة ومتساوية */
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -183,12 +197,11 @@
 </head>
 <body>
     <div class="container">
-        <!-- الشعار -->
-        <img src="Images/logo.png" alt="شعار MyCar" class="logo">
+        <div class="logo-container">
+            <img src="Images/logo.png" alt="شعار MyCar" class="logo">
+        </div>
 
-        <!-- نموذج تسجيل جديد -->
         <form id="registerForm">
-            <h2>ادخل بيانات سيارتك للتسجيل</h2>
             <label for="username">اسم المستخدم:</label>
             <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
 
@@ -208,7 +221,7 @@
 
             <div class="input-group-double">
                 <div>
-                    <label for="licenseExpiry">تاريخ نفاد الرخصة:</label>
+                    <label for="licenseExpiry">تاريخ نفاد الإجازة:</label>
                     <input type="date" id="licenseExpiry" required>
                 </div>
                 <div>
@@ -221,7 +234,6 @@
             <div class="switch-link" id="switchToLogin">تمتلك حساب؟ تسجيل دخول</div>
         </form>
 
-        <!-- نموذج تسجيل الدخول -->
         <form id="loginForm" class="hidden">
             <label for="loginCarPlate">رقم لوحة السيارة:</label>
             <input type="number" id="loginCarPlate" placeholder="أدخل رقم لوحة السيارة الذي اضفته عند التسجيل" required>

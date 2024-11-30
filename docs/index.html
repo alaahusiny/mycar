@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCar - افتتاحية</title>
+    <!-- إضافة مكتبة DotLottie -->
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <style>
+        /* إعدادات عامة للصفحة */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #fff; /* خلفية بيضاء */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }git add .
+
+        /* إعدادات العنصر الذي يحتوي على الرسوم المتحركة */
+        dotlottie-player {
+            width: 80%; /* ضبط حجم الرسوم المتحركة */
+            max-width: 400px; /* أقصى عرض للرسوم المتحركة */
+            height: auto;
+        }
+    </style>
+    <script>
+        // الانتقال التلقائي إلى الصفحة الرئيسية بعد 2 ثوانٍ
+        setTimeout(function () {
+            window.location.href = "../login.html"; // المسار النسبي لصفحة home.html
+        }, 4000); // 4000 ميلي ثانية = 2 ثانية
+    </script>
+</head>
+<body>
+    <!-- عنصر يحتوي على الرسوم المتحركة باستخدام DotLottie -->
+    <dotlottie-player 
+        src="https://lottie.host/80552586-a201-4d26-b00f-0d865bac182d/BYLHQAOU9Y.lottie" 
+        background="transparent" 
+        speed="1" 
+        style="width: 300px; height: 300px;" 
+        loop autoplay>
+    </dotlottie-player>
+</body>
+</html>

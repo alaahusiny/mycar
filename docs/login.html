@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300&family=Tajawal:wght@400&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            margin: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .login-container {
+            width: 220px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .plate-input {
+            width: 80%;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-size: 18px;
+            border: none;
+            border-bottom: 1px solid #004d99;
+            text-align: center;
+            outline: none;
+            background-color: transparent;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .submit-icon {
+            color: #004d99;
+            font-size: 24px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            opacity: 0.6;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .submit-icon:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <input type="text" class="plate-input" placeholder="رقم اللوحة" maxlength="10">
+        <i class="fas fa-arrow-right submit-icon" onclick="goToHome()"></i>
+    </div>
+
+    <script>
+        // Check if a plate number is already stored
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedPlateNumber = localStorage.getItem('plateNumber');
+            if (storedPlateNumber) {
+                // Redirect to the home page if a plate number is found
+                window.location.href = '../home.html';
+            }
+        });
+
+        function goToHome() {
+            const plateNumber = document.querySelector('.plate-input').value;
+            if (plateNumber) {
+                localStorage.setItem('plateNumber', plateNumber);
+                window.location.href = '../home.html'; // Redirect to the home page
+            }
+        }
+    </script>
+</body>
+</html>

@@ -18,7 +18,7 @@
             position: relative;
         }
         h1 {
-            background-color: #D0011B;
+            background: linear-gradient(135deg, #1db4f5, #004d99);
             color: #FFFFFF;
             padding: 15px;
             margin: -20px -20px 20px -20px;
@@ -32,7 +32,8 @@
             margin-bottom: 20px;
             border-radius: 8px;
             font-size: 16px;
-            display: none; /* تظهر فقط بعد الحفظ وإذا كان الوقود اعتيادي */
+            display: none;
+            text-align: right;
         }
         input, select, button {
             width: 90%;
@@ -42,6 +43,7 @@
             border-radius: 8px;
             font-size: 16px;
             box-sizing: border-box;
+            text-align: right;
         }
         input, select {
             background-color: #F9F9F9;
@@ -52,24 +54,25 @@
             color: #757575;
         }
         button {
-            background-color: #D0011B;
+            background-color: #1db4f5;
             color: #FFFFFF;
             font-weight: bold;
             cursor: pointer;
             border: none;
+            text-align: center;
         }
         button:hover {
-            background-color: #A40D20;
+            background-color: #004d99;
         }
         .record-container {
             margin-top: 20px;
             text-align: center;
             max-height: 300px;
             overflow-y: auto;
-            display: none; /* السجل مخفي افتراضيًا */
+            display: none;
         }
         .record-item {
-            background-color: #d0011d18;
+            background-color: #1db4f50e;
             color: #000;
             padding: 10px;
             margin: 10px auto;
@@ -82,77 +85,64 @@
             width: 90%;
         }
         .delete-icon {
-            color: #E53935;
+            color: #2f2f2f;
             cursor: pointer;
             font-size: 18px;
         }
         .delete-icon:hover {
-            color: #D32F2F;
+            color: #030303;
         }
-        .back-icon {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #ffffff;
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 90%;
+            margin: 10px auto;
         }
-        .back-icon i {
-            font-size: 25px;
+        .input-group label {
+            margin-left: 10px;
+            font-size: 16px;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="back-icon" onclick="goToStartPage()">
-            <i class="fas fa-arrow-circle-left"></i>
-        </div>
-
         <h1>قسم الوقود</h1>
 
-        <!-- الرسالة التحذيرية -->
         <div id="warningMessage" class="warning-message">
             تحذير: استخدام الوقود الاعتيادي بدلاً من الوقود الموصى به قد يؤدي إلى تآكل المحرك وتقليل كفاءته. تأكد دائمًا من استخدام نوع الوقود الصحيح لضمان أداء محرك سيارتك بشكل مثالي وحمايته من الأعطال.
         </div>
 
-        <!-- حقل نوع الوقود (قائمة منسدلة) -->
         <select id="fuelType">
             <option value="اعتيادي">اعتيادي</option>
             <option value="محسن">محسن</option>
         </select>
 
-        <!-- حقل كمية الوقود باللتر -->
         <input id="fuelQuantity" type="number" placeholder="أدخل كمية الوقود (باللتر)" required>
-
-        <!-- حقل كلفة الوقود بالدينار -->
         <input id="fuelCost" type="number" placeholder="أدخل الكلفة بالدينار" required>
-
-        <!-- حقل التاريخ -->
-        <input id="fuelDate" type="date" required>
-
-        <!-- حقل ملاحظات اختياري -->
+        
+        <!-- Date input with label -->
+        <div class="input-group">
+            <label for="fuelDate">التاريخ</label>
+            <input id="fuelDate" type="date" required>
+        </div>
+        
         <input id="fuelNotes" type="text" placeholder="ملاحظات (اختياري)">
 
-        <!-- زر الحفظ -->
         <button class="save-btn" onclick="saveRecord()">حفظ</button>
 
-        <!-- السجل -->
         <div id="recordContainer" class="record-container">
             <div id="recordList"></div>
         </div>
     </div>
 
     <script>
-        let carPlate = localStorage.getItem('carPlate') || "default"; // قراءة رقم اللوحة من التخزين المحلي
+        const carPlate = localStorage.getItem('plateNumber') || "default";
 
         window.onload = function() {
             loadRecords();
         };
-
-        function goToStartPage() {
-            window.location.href = "../start.html";
-        }
 
         function saveRecord() {
             const fuelType = document.getElementById("fuelType").value;
@@ -179,14 +169,12 @@
 
             displayRecords(records);
 
-            // إخفاء الرسالة التحذيرية عند حفظ السجل
             if (fuelType === "اعتيادي") {
                 document.getElementById("warningMessage").style.display = "block";
             } else {
                 document.getElementById("warningMessage").style.display = "none";
             }
 
-            // مسح الحقول بعد الحفظ
             document.getElementById("fuelType").value = "اعتيادي";
             document.getElementById("fuelQuantity").value = "";
             document.getElementById("fuelCost").value = "";
@@ -198,7 +186,7 @@
             const recordContainer = document.getElementById("recordContainer");
             const recordList = document.getElementById("recordList");
 
-            recordList.innerHTML = ""; // تفريغ السجل القديم
+            recordList.innerHTML = "";
             records.forEach((record, index) => {
                 const recordItem = document.createElement("div");
                 recordItem.className = "record-item";
@@ -222,9 +210,9 @@
 
         function deleteRecord(index) {
             let records = JSON.parse(localStorage.getItem(`fuelRecords_${carPlate}`)) || [];
-            records.splice(index, 1); // حذف السجل عند الفهرس المحدد
+            records.splice(index, 1);
             localStorage.setItem(`fuelRecords_${carPlate}`, JSON.stringify(records));
-            displayRecords(records); // تحديث العرض
+            displayRecords(records);
         }
 
         function loadRecords() {

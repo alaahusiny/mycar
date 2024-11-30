@@ -8,7 +8,7 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Tajawal', sans-serif;
             background-color: #FFFFFF;
             color: #000000;
             text-align: center;
@@ -18,7 +18,7 @@
             position: relative;
         }
         h1 {
-            background-color: #D0011B; /* اللون المطلوب */
+            background: linear-gradient(135deg, #1db4f5, #004d99);
             color: #FFFFFF;
             padding: 15px;
             margin: -20px -20px 20px -20px;
@@ -43,14 +43,14 @@
             color: #757575;
         }
         button {
-            background-color: #D0011B; /* اللون المطلوب */
+            background-color: #1db4f5;
             color: #FFFFFF;
             font-weight: bold;
             cursor: pointer;
             border: none;
         }
         button:hover {
-            background-color: #A40D20;
+            background-color: #004d99;
         }
         .record-container {
             margin-top: 20px;
@@ -59,7 +59,7 @@
             overflow-y: auto;
         }
         .record-item {
-            background-color: #d0011d18;
+            background-color: #1db4f50e;
             color: #000;
             padding: 10px;
             margin: 10px auto;
@@ -72,33 +72,18 @@
             width: 90%;
         }
         .delete-icon {
-            color: #E53935;
+            color: #3a3838;
             cursor: pointer;
             font-size: 18px;
         }
         .delete-icon:hover {
-            color: #D32F2F;
-        }
-        .back-icon {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #ffffff;
-        }
-        .back-icon i {
-            font-size: 25px;
+            color: #714c4c;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="back-icon" onclick="goToStartPage()">
-            <i class="fas fa-arrow-circle-left"></i>
-        </div>
-
         <h1>قسم الصيانة</h1>
 
         <!-- حقل نوع الصيانة -->
@@ -120,15 +105,14 @@
     </div>
 
     <script>
-        const carPlate = "default";
+        const carPlate = localStorage.getItem('plateNumber');
+        if (!carPlate) {
+            window.location.href = 'login.html'; // إعادة التوجيه إلى صفحة تسجيل الدخول إذا لم يكن هناك رقم لوحة
+        }
 
         window.onload = function() {
             loadRecords();
         };
-
-        function goToStartPage() {
-            window.location.href = "../start.html";
-        }
 
         function saveRecord() {
             const maintenanceType = document.getElementById("maintenanceType").value;
@@ -140,9 +124,9 @@
             }
 
             const record = { maintenanceType, maintenanceCost, maintenanceDate };
-            let records = JSON.parse(localStorage.getItem(carPlate)) || [];
+            let records = JSON.parse(localStorage.getItem(`maintenanceRecords_${carPlate}`)) || [];
             records.push(record);
-            localStorage.setItem(carPlate, JSON.stringify(records));
+            localStorage.setItem(`maintenanceRecords_${carPlate}`, JSON.stringify(records));
 
             displayRecord(record, records.length - 1);
 
@@ -163,7 +147,7 @@
         }
 
         function loadRecords() {
-            const records = JSON.parse(localStorage.getItem(carPlate)) || [];
+            const records = JSON.parse(localStorage.getItem(`maintenanceRecords_${carPlate}`)) || [];
             document.getElementById("recordList").innerHTML = "";
 
             records.forEach((record, index) => {
@@ -172,9 +156,9 @@
         }
 
         function deleteRecord(index) {
-            let records = JSON.parse(localStorage.getItem(carPlate));
+            let records = JSON.parse(localStorage.getItem(`maintenanceRecords_${carPlate}`));
             records.splice(index, 1);
-            localStorage.setItem(carPlate, JSON.stringify(records));
+            localStorage.setItem(`maintenanceRecords_${carPlate}`, JSON.stringify(records));
             loadRecords();
         }
     </script>
